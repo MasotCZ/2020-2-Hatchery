@@ -17,11 +17,11 @@ namespace IO.Ulohy
         public string EquationString()
         {
             var ret = "";
-            var pow = arguments.Count;
+            var pow = arguments.Count - 1;
 
             foreach (var item in arguments.SkipLast(1))
             {
-                ret += $"{item}*x^{pow} + ";
+                ret += $"{item}*x^{pow--} + ";
             }
 
             ret += arguments.Last();

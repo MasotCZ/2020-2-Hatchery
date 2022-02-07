@@ -6,7 +6,7 @@ namespace IO
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            new Ulohy.Uloha1().Execute();
         }
     }
 }
