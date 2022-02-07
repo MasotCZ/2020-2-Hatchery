@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<company> 
+  <employee department="dep_001">
+    <salary>35000</salary>
+    <firstName>Pavel</firstName>
+    <lastName>Novak</lastName>
+  </employee>
+  <employee department="dep_002">
+    <salary>29000</salary>
+    <firstName>Anna</firstName>
+    <lastName>Mala</lastName>
+  </employee>
+  <employee department="dep_002">
+    <salary>40000</salary>
+    <firstName>Jana</firstName>
+    <lastName>Prochazkova</lastName>
+  </employee>
+  <employee department="dep_001">
+    <salary>28000</salary>
+    <firstName>Josef</firstName>
+    <lastName>Vyskocil</lastName>
+  </employee>
+</company>
