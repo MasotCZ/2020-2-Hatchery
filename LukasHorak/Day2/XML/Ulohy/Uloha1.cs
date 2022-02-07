@@ -18,8 +18,6 @@ namespace XML.Ulohy
         {
             var company = new Company();
             company.ReadFromXML(xmlInput);
-            Console.WriteLine(company);
-
             company.WriteContinualToXML(xmlOutput, company.CreateReport());
         }
     }
