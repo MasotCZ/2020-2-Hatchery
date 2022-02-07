@@ -6,8 +6,8 @@ namespace IO
     {
         static void Main(string[] args)
         {
-            //new Ulohy.Uloha1().Execute();
-            new Ulohy.Uloha2().Execute();
+            new Ulohy.Uloha1().Execute();
+            //new Ulohy.Uloha2().Execute();
         }
     }
 }

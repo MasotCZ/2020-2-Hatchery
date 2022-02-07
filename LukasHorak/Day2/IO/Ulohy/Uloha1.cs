@@ -12,8 +12,8 @@ namespace IO.Ulohy
 
     class Uloha1 : IUloha
     {
-        public string inputPath = "./input";
-        public string outputPath = "./output";
+        public string inputPath = "./input.txt";
+        public string outputPath = "./output.txt";
 
         public void Execute()
         {
@@ -25,44 +25,13 @@ namespace IO.Ulohy
 
             var info = new CultureInfo("de-DE");
 
-            IEnumerable<Report> reports;
-            try
-            {
-                //read data
-                using (FileStream fs = File.OpenRead(inputPath))
-                {
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        var rp = new ReportParser();
-                        reports = rp.Read(sr, info);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"err {e.Message}");
-                return;
-            }
-
+            var rp = new ReportParser();
+            var reports = rp.Read(inputPath, info);
             var timeReports = ConvertReports(reports);
 
-            try
-            {
-                //write data
-                using (FileStream fs = File.OpenWrite(outputPath))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        var trp = new TimeReportParser();
-                        trp.Write(sw, info, timeReports);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"err {e.Message}");
-                return;
-            }
+
+            var trp = new TimeReportParser();
+            trp.Write(outputPath, info, timeReports);
         }
 
         private IEnumerable<TimeReport> ConvertReports(IEnumerable<Report> reports)

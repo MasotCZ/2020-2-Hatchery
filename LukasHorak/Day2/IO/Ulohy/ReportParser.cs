@@ -7,30 +7,39 @@ namespace IO.Ulohy
 {
     interface IReader<_T>
     {
-        IEnumerable<_T> Read(StreamReader sr, CultureInfo info);
+        IEnumerable<_T> Read(string path, CultureInfo info);
     }
 
     class ReportParser : IReader<Report>
     {
-        public IEnumerable<Report> Read(StreamReader sr, CultureInfo info)
+        public IEnumerable<Report> Read(string inputPath, CultureInfo info)
         {
-            var ret = new List<Report>();
+            IEnumerable<Report> reports = new List<Report>();
             try
             {
-                //read header
-                sr.ReadLine();
-
-                while (!sr.EndOfStream)
+                //read data
+                using (FileStream fs = File.OpenRead(inputPath))
                 {
-                    ret.Add(ReadReport(sr.ReadLine(), info));
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        var ret = new List<Report>();
+                        //read header
+                        sr.ReadLine();
+
+                        while (!sr.EndOfStream)
+                        {
+                            ret.Add(ReadReport(sr.ReadLine(), info));
+                        }
+                        return ret;
+                    }
                 }
             }
-            catch (FormatException e)
+            catch (Exception e)
             {
-                Console.WriteLine($"Load err {e.Message}");
+                Console.WriteLine($"err {e.Message}");
             }
 
-            return ret;
+            return reports;
         }
 
         private Report ReadReport(string line, CultureInfo info)
