@@ -33,7 +33,21 @@ namespace IO.Ulohy
 
         public void SaveString(FileStream fs)
         {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    foreach (var item in this)
+                    {
+                        sw.WriteLine(item);
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
         }
 
         public void Load(FileStream fs)
@@ -55,7 +69,22 @@ namespace IO.Ulohy
 
         public void LoadString(FileStream fs)
         {
+            try
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        this.Add(new Employee(sr.ReadLine()));
+                    }
 
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public override string ToString()

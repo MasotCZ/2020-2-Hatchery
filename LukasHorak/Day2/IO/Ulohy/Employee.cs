@@ -9,22 +9,30 @@ namespace IO.Ulohy
         {
             Name = name;
             Surname = surname;
-            Fullname = $"{name} {surname}";
+            _fullName = $"{name} {surname}";
             Birthday = birthday;
             Position = position;
             this.salary = salary;
         }
 
+        public Employee(string ss)
+        {
+            //todo string to employee
+        }
+
         public string Name { get; }
         public string Surname { get; }
-        public string Fullname { get; private set; }
+
+        [NonSerialized]
+        private string _fullName;
+        public string Fullname => _fullName;
         public DateTime Birthday { get; }
         public string Position { get; }
         public decimal salary { get; }
 
         public void OnDeserialization(object sender)
         {
-            Fullname = $"{Name} {Surname}";
+            _fullName = $"{Name} {Surname}";
         }
 
         public override string ToString()
