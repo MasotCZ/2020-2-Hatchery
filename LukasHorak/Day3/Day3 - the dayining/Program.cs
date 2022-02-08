@@ -9,7 +9,7 @@ namespace Day3___the_dayining
     {
         static void Main(string[] args)
         {
-            new Uloha1().Execute();
+            //new Uloha1().Execute();
         }
     }
 }

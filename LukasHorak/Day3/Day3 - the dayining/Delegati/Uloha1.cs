@@ -23,12 +23,14 @@ namespace Day3___the_dayining.Cviko
 
             onWrite += (char c) =>
             {
+                //on backspace
                 if (c == (char)8)
                 {
                     controlString.Trim(controlString[controlString.Length - 1]);
                     return;
                 }
 
+                //anything else gets appended
                 controlString += c;
                 if (controlString.Length > printLenght - 1)
                 {
