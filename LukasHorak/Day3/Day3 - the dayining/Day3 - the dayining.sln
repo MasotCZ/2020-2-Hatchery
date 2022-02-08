@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 - the dayining", "Day3 - the dayining.csproj", "{FC15D202-8522-4D4F-8868-F7F923AF3A48}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CE5DD9A1-9CFA-4720-9790-1E711574AA31} = {CE5DD9A1-9CFA-4720-9790-1E711574AA31}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UlohyUtility", "..\..\Day2\UlohyUtility\UlohyUtility.csproj", "{CE5DD9A1-9CFA-4720-9790-1E711574AA31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{FC15D202-8522-4D4F-8868-F7F923AF3A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC15D202-8522-4D4F-8868-F7F923AF3A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC15D202-8522-4D4F-8868-F7F923AF3A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE5DD9A1-9CFA-4720-9790-1E711574AA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE5DD9A1-9CFA-4720-9790-1E711574AA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE5DD9A1-9CFA-4720-9790-1E711574AA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE5DD9A1-9CFA-4720-9790-1E711574AA31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,4 +6,8 @@
     <RootNamespace>Day3___the_dayining</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Day2\UlohyUtility\UlohyUtility.csproj" />
+  </ItemGroup>
+
 </Project>

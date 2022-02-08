@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Day3___the_dayining.Cviko;
+using System;
 
 namespace Day3___the_dayining
 {
+    //
+
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            new Uloha1().Execute();
         }
     }
 }
