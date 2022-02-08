@@ -10,8 +10,6 @@ namespace ORM.SQL
 {
     class Uloha1 : IUloha
     {
-        const string ConnectionString = "Server=.\\sqlexpress; Database= CoolDB; Integrated Security=True;";
-
         private static void Delete(SqlConnection connection)
         {
             SqlCommand command = connection.CreateCommand();
@@ -117,7 +115,7 @@ namespace ORM.SQL
 
         public void Execute()
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
             {
                 connection.Open();
                 Console.WriteLine("Connected...");
