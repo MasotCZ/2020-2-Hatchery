@@ -8,6 +8,20 @@ namespace ORM
     {
         const string ConnectionString = "Server=.\\sqlexpress; Database= CoolDB; Integrated Security=True;";
 
+        private static void Delete(SqlConnection connection)
+        {
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = "delete from Car where color = @red";
+            CreateSqlParam(command, "red", "red");
+
+            var rowsAffected = command.ExecuteNonQuery();
+
+            if (rowsAffected != 1)
+            {
+                throw new Exception("ERRR");
+            }
+        }
+
         private static void Update(SqlConnection connection)
         {
             SqlCommand command = connection.CreateCommand();
@@ -47,10 +61,11 @@ namespace ORM
             command.Parameters.Add(param);
         }
 
-        private static void Read(SqlConnection connection)
+        private static void Read(SqlConnection connection, SqlTransaction tr)
         {
             SqlCommand command = connection.CreateCommand();
-            command.CommandText = "select Id, SPY, Clor, [Power] from Cars";
+            command.Transaction = tr;
+            command.CommandText = "select Id, spz, color, [Power] from Car";
             var reader = command.ExecuteReader();
 
             //radky zpetny vazby, pocet radku
@@ -65,9 +80,19 @@ namespace ORM
                 //var power = reader.GetString("Power");
 
                 var id = reader.GetString(0);
-                var spz = reader.GetString(1);
+                var spz = reader[1];
+                string spzVal = "";
+                if (spz is null || spz is DBNull)
+                {
+                    spzVal = "null";
+                }
+                else
+                {
+                    spzVal = spz.ToString();
+                }
+
                 var color = reader.GetString(2);
-                var power = reader.GetString(3);
+                var power = reader.GetDecimal(3);
 
                 /*
                 null check
@@ -80,8 +105,10 @@ namespace ORM
                 is obj DBNull ? 
                  */
 
-                //Console.WriteLine();
+                Console.WriteLine($"{id}, {spz}, {color}, {power}");
             }
+
+            reader.Close();
         }
 
         static void Main(string[] args)
@@ -91,9 +118,18 @@ namespace ORM
                 connection.Open();
                 Console.WriteLine("Connected...");
 
-                //stuff
-                //Insert(connection);
-                Update(connection);
+                using (var tr = connection.BeginTransaction())
+                {
+
+                    //stuff
+                    Read(connection,tr);
+                    //Insert(connection);
+                    //Update(connection);
+                    //Delete(connection);
+
+                    tr.Commit();
+
+                }
 
                 connection.Close();
                 Console.WriteLine("Closed...");
