@@ -2,48 +2,26 @@
 
 namespace BankingApp
 {
-    public static class TransferController
-    {
-        public static void TransferFromTo(BankAccount from, BankAccount to, decimal amount)
-        {
-            //if theres an expensive call to change funds we should ignore zeroes
-            //probly?
-            if (amount == 0)
-            {
-                throw new ArgumentException("Cant transfer 0 funds");
-            }
-
-            try
-            {
-                from.Withdraw(amount);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                throw;
-            }
-
-            try
-            {
-                to.Deposit(amount);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                from.Deposit(amount);
-                throw;
-            }
-        }
-    }
-
     public class BankAccount
     {
+        private readonly ICalculator calc;
         public decimal AccountBalance { get; private set; }
+
+        public BankAccount() { }
+
+        public BankAccount(ICalculator calc)
+        {
+            this.calc = calc;
+        }
 
         public decimal Deposit(decimal amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException("Dont be negative");
 
-            AccountBalance += amount;
+            var newBalance = calc.Add(amount, AccountBalance);
+
+            AccountBalance = newBalance;
             return AccountBalance;
         }
 
