@@ -27,5 +27,31 @@ namespace TestBankingApp_MSTest_NSubstitute
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => account.Deposit(-1000));
             Assert.AreEqual(0, account.AccountBalance);
         }
+
+        [TestMethod]
+        public void TestWithdraw()
+        {
+            BankAccount account = new BankAccount();
+
+            account.Deposit(5000);
+            account.Withdraw(1000);
+            Assert.AreEqual(4000, account.AccountBalance);
+        }
+
+        [TestMethod]
+        public void TestWithdrawWithNotEnoughFunds()
+        {
+            BankAccount account = new BankAccount();
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => account.Withdraw(1000));
+            Assert.AreEqual(0, account.AccountBalance);
+        }
+
+        [TestMethod]
+        public void TestWithdrawNegativeAmountThrowsException()
+        {
+            BankAccount account = new BankAccount();
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => account.Withdraw(-1000));
+            Assert.AreEqual(0, account.AccountBalance);
+        }
     }
 }
