@@ -21,5 +21,7 @@ namespace CampWebAPISample.Data
 
         Task<Speaker[]> GetAllSpeakersAsync();
 
+        Task<Location> GetLocationFromId(int id);
+
     }
 }

@@ -68,7 +68,7 @@ namespace CampWebAPISample.Controllers
         }
         */
 
-        public async Task<ActionResult<CampModel>> Post([FromBody] CampModel model)
+        public async Task<ActionResult<CampModel>> Post([FromBody] CampModelPostWithLocationId model)
         {
             try
             {
@@ -79,7 +79,8 @@ namespace CampWebAPISample.Controllers
                     return BadRequest("Moniker already used, must be unique");
                 }
 
-                var camp = _mapper.Map<CampModel, Camp>(model);
+                var camp = _mapper.Map<CampModelPostWithLocationId, Camp>(model);
+                camp.Location = await _repository.GetLocationFromId(model.LocationId);
                 _repository.Add(camp);
                 await _repository.SaveChangesAsync();
                 return Ok(camp);

@@ -4,6 +4,13 @@ using CampWebAPISample.Models;
 
 namespace CampWebAPISample.Data
 {
+    public class CampProfileWithId : Profile
+    {
+        public CampProfileWithId()
+        {
+            this.CreateMap<Camp, CampModelPostWithLocationId>().ReverseMap();
+        }
+    }
 
     public class CampProfile : Profile
     {

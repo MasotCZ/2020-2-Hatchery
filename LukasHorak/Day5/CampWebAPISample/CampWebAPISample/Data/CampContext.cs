@@ -16,6 +16,7 @@ namespace CampWebAPISample.Data
         public DbSet<Speaker> Speakers { get; set; }
         public DbSet<Talk> Talks { get; set; } 
 
+        public DbSet<Location> Locations { get; set; } 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_config.GetConnectionString("CodeCamp"));
