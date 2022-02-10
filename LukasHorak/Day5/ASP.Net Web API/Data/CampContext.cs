@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ASP.Net_Web_API.Data
 {
+
     public class CampContext : DbContext
     {
         private readonly IConfiguration _config;
@@ -17,10 +18,10 @@ namespace ASP.Net_Web_API.Data
             _config = config;
         }
 
-        DbSet<Camp> Camps { get; set; }
-        DbSet<Location> Locations { get; set; }
-        DbSet<Speaker> Speakers { get; set; }
-        DbSet<Talk> Talks { get; set; }
+        public DbSet<Camp> Camps { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Speaker> Speakers { get; set; }
+        public DbSet<Talk> Talks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlServer(

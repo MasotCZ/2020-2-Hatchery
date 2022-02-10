@@ -12,7 +12,8 @@ namespace ASP.Net_Web_API.Data.Entities
         //zkratka
         public string Moniker { get; set; }
         public DateTime EventDate { get; set; }
-        public int Length { get; set; }
+        public int Length { get; set; } = 1;
         public Location Location { get; set; }
+        public ICollection<Talk> Talks { get; set; }
     }
 }
