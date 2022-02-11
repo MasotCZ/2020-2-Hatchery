@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using CampWebAPISample.Data.Entities;
-using System.Linq.Expressions;
+﻿using CampWebAPISample.Data.Entities;
+
 
 namespace CampWebAPISample.Data
 {
@@ -21,7 +20,7 @@ namespace CampWebAPISample.Data
 
         Task<Speaker[]> GetAllSpeakersAsync();
 
-        Task<Location> GetLocationFromId(int id);
+        Task<Location> GetLocationAsync(string address, string postalCode);
 
     }
 }

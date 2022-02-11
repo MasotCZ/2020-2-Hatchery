@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CampWebAPISample.Data;
-using CampWebAPISample.Data.Entities;
 using CampWebAPISample.Models;
 using Microsoft.AspNetCore.Mvc;
+using CampWebAPISample.Data.Entities;
 
 namespace CampWebAPISample.Controllers
 {
@@ -11,84 +11,87 @@ namespace CampWebAPISample.Controllers
     {
         private readonly ICampRepository _repository;
         private readonly IMapper _mapper;
+        private readonly LinkGenerator _linkGenerator;
 
-        public CampController(ICampRepository repository, IMapper mapper)
+        public CampController(ICampRepository repository, IMapper mapper, LinkGenerator linkGenerator)
         {
             _repository = repository;
             _mapper = mapper;
+            _linkGenerator = linkGenerator;
         }
 
+
+
         [HttpGet]
-        public async Task<IActionResult> GetCampsAsync()
+        public async Task<ActionResult<CampModel[]>> Get( bool includeTalks = false)
         {
             try
             {
-                var res = _mapper.Map<CampModel[]>(await _repository.GetAllCampsAsync());
-                return Ok(res);
+                var results = await _repository.GetAllCampsAsync(includeTalks);
+
+                return _mapper.Map<CampModel[]>(results);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "db fail");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
 
         [HttpGet("{moniker}")]
-        public async Task<ActionResult<CampModel>> GetCampAsync(string moniker)
+        public async Task<ActionResult<CampModel>> Get(string moniker)
         {
             try
             {
-                var res = _mapper.Map<CampModel>(await _repository.GetCampAsync(moniker));
+                var result = await _repository.GetCampAsync(moniker);
 
-                if (res is null)
-                {
-                    return NotFound("No Data");
-                }
+                if (result == null) return NotFound();
 
-                return Ok(res);
+                return _mapper.Map<CampModel>(result);
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "db fail");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
-        /*
-        [HttpGet("{includeTalks}")]
-        public async Task<ActionResult<CampModel[]>> Get([FromBody] bool includeTalks)
-        {
-            try
-            {
-                var res = _mapper.Map<CampModel[]>(await _repository.GetAllCampsAsync(includeTalks));
-                return BadRequest();
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "db fail");
-            }
-        }
-        */
 
-        public async Task<ActionResult<CampModel>> Post([FromBody] CampModelPostWithLocationId model)
+        public async Task<ActionResult<CampModel>> Post([FromBody] CampModel model)
         {
             try
             {
                 var existing = await _repository.GetCampAsync(model.Moniker);
-
-                if (existing is not null)
+                if (existing != null)
                 {
-                    return BadRequest("Moniker already used, must be unique");
+                    return BadRequest("Moniker in Use");
                 }
 
-                var camp = _mapper.Map<CampModelPostWithLocationId, Camp>(model);
-                camp.Location = await _repository.GetLocationFromId(model.LocationId);
+                var location = await _repository.GetLocationAsync(model.LocationAddress, model.LocationPostalCode);
+                if (location == null)
+                {
+                    return BadRequest("Location is not valid");
+                }
+                // Create a new Camp
+                var camp = _mapper.Map<Camp>(model);
+                camp.Location = location;
+
                 _repository.Add(camp);
-                await _repository.SaveChangesAsync();
-                return Ok(camp);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created($"/api/camps/{camp.Moniker}", _mapper.Map<CampModel>(camp));
+                }
+
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "db fail");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
+
+            return BadRequest();
         }
+
+
     }
+
 }
+    
+

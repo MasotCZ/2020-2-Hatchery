@@ -1,4 +1,3 @@
-using AutoMapper;
 using CampWebAPISample.Data;
 using System.Reflection;
 
@@ -13,6 +12,8 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseRouting();
 
 app.UseAuthorization();
 

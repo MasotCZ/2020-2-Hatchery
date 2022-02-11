@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CampWebAPISample.Data
 {
-    public class CampRepository : ICampRepository
+    public class CampRepository: ICampRepository
     {
         private readonly CampContext _context;
         private readonly ILogger<CampRepository> _logger;
@@ -71,15 +71,6 @@ namespace CampWebAPISample.Data
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Location> GetLocationFromId(int id)
-        {
-            _logger.LogInformation($"Getting a Location for {id}");
-
-            IQueryable<Location> query = _context.Locations.Where(d => d.LocationId == id);
-            
-            return await query.FirstOrDefaultAsync();
-        }
-
         public async Task<Speaker> GetSpeakerAsync(int speakerId)
         {
             _logger.LogInformation($"Getting Speaker");
@@ -104,7 +95,7 @@ namespace CampWebAPISample.Data
             return await query.ToArrayAsync();
         }
 
-        public async Task<Talk> GetTalkByMonikerAsync(string moniker, int talkId, bool includeSpeakers = false)
+        public async Task<Talk> GetTalkByMonikerAsync(string moniker, int talkId,  bool includeSpeakers = false)
         {
             _logger.LogInformation($"Getting all Talks for a Camp");
 
@@ -147,6 +138,14 @@ namespace CampWebAPISample.Data
         {
             _logger.LogInformation($"Attempting to save the changes to the content");
             return (await _context.SaveChangesAsync()) > 0;
+        }
+
+        public async Task<Location> GetLocationAsync(string address, string postalCode)
+        {
+            IQueryable<Location> query = _context.Location;
+            query = query
+              .Where(t => t.Address == address && t.PostalCode == postalCode);
+            return await query.FirstOrDefaultAsync();
         }
     }
 }
