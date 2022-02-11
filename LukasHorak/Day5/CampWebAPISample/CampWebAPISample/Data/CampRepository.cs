@@ -114,7 +114,7 @@ namespace CampWebAPISample.Data
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Talk[]> GetTalksByMOnikerAsync(string moniker, bool includeSpeakers = false)
+        public async Task<Talk[]> GetTalksByMonikerAsync(string moniker, bool includeSpeakers = false)
         {
             _logger.LogInformation($"Getting all Talks for a Camp");
 
@@ -137,7 +137,7 @@ namespace CampWebAPISample.Data
         public async Task<bool> SaveChangesAsync()
         {
             _logger.LogInformation($"Attempting to save the changes to the content");
-            return (await _context.SaveChangesAsync()) > 0;
+            return (await _context.SaveChangesAsync()) >= 0;
         }
 
         public async Task<Location> GetLocationAsync(string address, string postalCode)

@@ -3,6 +3,7 @@
 
 namespace CampWebAPISample.Data
 {
+
     public interface ICampRepository
     {
         void Add<T>(T entity) where T : class;
@@ -13,7 +14,7 @@ namespace CampWebAPISample.Data
         Task<Camp> GetCampAsync(string moniker, bool includeTalks = false);
 
         Task<Talk> GetTalkByMonikerAsync(string moniker, int talkId, bool includeSpeakers = false);
-        Task<Talk[]> GetTalksByMOnikerAsync(string moniker, bool includeSpeakers = false);
+        Task<Talk[]> GetTalksByMonikerAsync(string moniker, bool includeSpeakers = false);
 
         Task<Speaker[]> GetSpeakersByMonikerAsync(string moniker);
         Task<Speaker> GetSpeakerAsync(int speakerId);

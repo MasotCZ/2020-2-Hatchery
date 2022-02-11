@@ -7,6 +7,7 @@ using CampWebAPISample.Data.Entities;
 namespace CampWebAPISample.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class CampController : Controller
     {
         private readonly ICampRepository _repository;
@@ -117,6 +118,29 @@ namespace CampWebAPISample.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpDelete("{moniker}")]
+        public async Task<IActionResult> Delete(string moniker)
+        {
+            try
+            {
+                var currentCamp = await _repository.GetCampAsync(moniker);
+
+                if (currentCamp is null)
+                {
+                    return NotFound();
+                }
+
+                _repository.Delete(currentCamp);
+                await _repository.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+
         }
 
     }
