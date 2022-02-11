@@ -20,10 +20,8 @@ namespace CampWebAPISample.Controllers
             _linkGenerator = linkGenerator;
         }
 
-
-
         [HttpGet]
-        public async Task<ActionResult<CampModel[]>> Get( bool includeTalks = false)
+        public async Task<ActionResult<CampModel[]>> Get(bool includeTalks = false)
         {
             try
             {
@@ -89,9 +87,40 @@ namespace CampWebAPISample.Controllers
             return BadRequest();
         }
 
+        [HttpPut("{moniker}")]
+        public async Task<ActionResult<CampModel>> Put(string moniker, [FromBody] CampModel model)
+        {
+            try
+            {
+                var currentCamp = await _repository.GetCampAsync(moniker);
+
+                if (currentCamp is null)
+                {
+                    return NotFound("Does not exist");
+                }
+
+                //tohle namapuje ten vysledek
+                //bez nej bys to musel udelat pres add a remove
+                //a nezapomenou pridat do toho modelu incoming veci co nevi jako treba ID z originalu
+
+                _mapper.Map(model, currentCamp);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return _mapper.Map<CampModel>(currentCamp);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+
+            return BadRequest();
+        }
 
     }
 
 }
-    
+
 
