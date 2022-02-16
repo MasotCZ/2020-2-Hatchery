@@ -69,6 +69,7 @@ namespace CampWebAPISample.Controllers
                 {
                     return BadRequest("Location is not valid");
                 }
+
                 // Create a new Camp
                 var camp = _mapper.Map<Camp>(model);
                 camp.Location = location;

@@ -131,7 +131,7 @@ namespace CampWebAPISample.Controllers
 
                 if (talk is null)
                 {
-                    return NotFound();
+                    return NotFound($"id:{id} doesnt exist");
                 }
 
                 _repository.Delete(talk);
