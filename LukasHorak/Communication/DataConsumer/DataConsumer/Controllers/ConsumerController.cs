@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace Consumer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ConsumerController : ControllerBase
     {
@@ -66,10 +66,8 @@ namespace Consumer.Controllers
             return response.StatusCode;
         }
 
-
-        //do parameter
         [HttpPost]
-        public ActionResult<object> PostRecipe(CookingRecipe recipe)
+        public ActionResult<object> PostRecipe1(CookingRecipe recipe)
         {
             var client = _httpfactory.CreateClient();
 
@@ -93,5 +91,10 @@ namespace Consumer.Controllers
 
             return response.StatusCode;
         }
+
+        [HttpGet(Name = "1")]
+        public async Task<ActionResult<CookingRecipe[]>> GetStuff1() => Ok();
+        [HttpGet(Name = "2")]
+        public async Task<ActionResult<CookingRecipe[]>> GetStuff2() => Ok();
     }
 }
